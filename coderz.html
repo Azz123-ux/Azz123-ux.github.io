@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="it"> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Indovina il Personaggio</title> 
+  <link rel="stylesheet" href="styles.css"> 
+ <style type="text/css" id="dcoder_stylesheet">body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    text-align: center;
+    margin: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+}
+
+#quiz {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+#results {
+    display: none;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#results p {
+    margin: 5px 0;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.question {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.correct {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.incorrect {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}</style></head> 
+ <body> 
+  <div class="container"> 
+   <h1>Indovina il Personaggio!</h1> 
+   <div id="quiz"> <!-- Domande e risposte verranno generate dinamicamente qui --> 
+   </div> <button id="submit-btn">Mostra risultati</button> 
+   <div id="results"> <!-- Qui vengono mostrati i risultati --> 
+   </div> 
+  </div> 
+  <script src="script.js"></script> 
+ 
+<script type="text/javascript" id="dcoder_script">const questions = [
+    { question: "Ha dipinto 'La Gioconda'?", answer: true },
+    { question: "Ha vinto due Premi Nobel, uno per la Fisica e uno per la Chimica?", answer: true },
+    { question: "Ha inventato la lampadina elettrica?", answer: true },
+    { question: "Ha scritto il libro 'Una breve storia del tempo'?", answer: true },
+    { question: "Ha sviluppato la teoria della relatività generale?", answer: true },
+    { question: "È considerata la prima programmatrice al mondo?", answer: true },
+    { question: "Ha co-fondato Apple Inc.?", answer: true },
+    { question: "Ha lavorato principalmente nel campo dell'elettricità e del magnetismo?", answer: true },
+    { question: "Ha migliorato il telescopio per osservazioni astronomiche?", answer: true },
+    { question: "Ha inventato la stampa a caratteri mobili?", answer: true },
+    { question: "È noto per la sua teoria dell'evoluzione attraverso la selezione naturale?", answer: true },
+    { question: "Era la regina di Francia durante la Rivoluzione francese?", answer: true },
+    { question: "È considerato il padre dell'informatica e ha contribuito alla decrittazione del codice Enigma durante la Seconda guerra mondiale?", answer: true },
+    { question: "È stata una poetessa statunitense nota per la sua poesia introspectiva?", answer: true },
+    { question: "È stato un pioniere della radiocomunicazione?", answer: true },
+    { question: "È noto per il teorema che porta il suo nome in matematica?", answer: true },
+    { question: "Ha scritto il romanzo distopico '1984'?", answer: true },
+    { question: "È stato un pittore olandese famoso per il suo stile espressionista?", answer: true },
+    { question: "È stato un fisico danese noto per il suo contributo al modello atomico?", answer: true },
+    { question: "È stato un matematico italiano che ha introdotto la sequenza di Fibonacci?", answer: true }
+];
+
+const quizContainer = document.getElementById('quiz');
+const resultsContainer = document.getElementById('results');
+const submitButton = document.getElementById('submit-btn');
+
+function generateQuiz() {
+    questions.forEach((question, index) => {
+        const div = document.createElement('div');
+        div.classList.add('question');
+        div.innerHTML = `
+            <p>${index + 1}. ${question.question}</p>
+            <label><input type="radio" name="answer${index}" value="true"> SI</label>
+            <label><input type="radio" name="answer${index}" value="false"> NO</label>
+        `;
+        quizContainer.appendChild(div);
+    });
+}
+
+function showResults() {
+    const answerContainers = quizContainer.querySelectorAll('.question');
+    let correctAnswers = 0;
+
+    answerContainers.forEach((container, index) => {
+        const userAnswer = container.querySelector('input:checked').value === 'true';
+        if (userAnswer === questions[index].answer) {
+            correctAnswers++;
+            container.classList.add('correct');
+        } else {
+            container.classList.add('incorrect');
+        }
+    });
+
+    const totalQuestions = questions.length;
+    const score = (correctAnswers / totalQuestions) * 100;
+
+    resultsContainer.innerHTML = `
+        <h2>Risultati del Quiz</h2>
+        <p>Hai risposto correttamente a ${correctAnswers} domande su ${totalQuestions} (${score}%).</p>
+    `;
+    resultsContainer.style.display = 'block';
+    submitButton.disabled = true;
+}
+
+submitButton.addEventListener('click', showResults);
+
+generateQuiz();</script></body></html>
